@@ -18,7 +18,7 @@ class WishlistsController extends Controller
         $this->user = JWTAuth::parseToken()->authenticate();
     }
 
-    private function _verifyOwnership($object)
+    private function verifyOwnership($object)
     {
         // Verify if user is owner
         if ($object->user_id <> $this->user->id) {
@@ -39,7 +39,7 @@ class WishlistsController extends Controller
     {
         $wishlist = Wishlist::findOrFail($id);
 
-        if (!$this->_verifyOwnership($wishlist)) {
+        if (!$this->verifyOwnership($wishlist)) {
             return response()->json(array(
                 'message' => 'Unauthorized action'
             ), 401);
@@ -84,7 +84,7 @@ class WishlistsController extends Controller
 
         $wishlist = Wishlist::findOrFail($id);
 
-        if (!$this->_verifyOwnership($wishlist)) {
+        if (!$this->verifyOwnership($wishlist)) {
             return response()->json(array(
                 'message' => 'Unauthorized action'
             ), 401);
@@ -100,7 +100,7 @@ class WishlistsController extends Controller
     {
         $wishlist = Wishlist::findOrFail($id);
 
-        if (!$this->_verifyOwnership($wishlist)) {
+        if (!$this->verifyOwnership($wishlist)) {
             return response()->json(array(
                 'message' => 'Unauthorized action'
             ), 401);
