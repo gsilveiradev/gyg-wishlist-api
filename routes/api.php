@@ -42,6 +42,24 @@ Route::group(['namespace' => 'Api'], function () {
                 Route::get('/authentication/refresh_token', 'AuthenticationController@refreshToken');
             });
         });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Routes with required login
+        |--------------------------------------------------------------------------
+        */
+        Route::group(['middleware' => ['jwt.auth']], function () {
+            /*
+            |--------------------------------------------------------------------------
+            | Routes for wishlists service
+            |--------------------------------------------------------------------------
+            */
+            Route::delete('/wishlists/{id}', 'WishlistsController@destroy');
+            Route::put('/wishlists/{id}', 'WishlistsController@update');
+            Route::get('/wishlists/{id}', 'WishlistsController@show');
+            Route::post('/wishlists', 'WishlistsController@store');
+            Route::get('/wishlists', 'WishlistsController@index');
+        });
     });
         
 });
