@@ -66,10 +66,10 @@ php artisan serve
 
 First release: items 1, 2, 3 and 4.
 
-I wanted to choose the ticket numbers 1, 2, 3 because they are the base of the API.
-Number 1 is the goal of this project.
-Number 2 represents the authentication used to do relation between users and wishlists feature, also it is responsible for the security between api endpoits.
-Number 3 represents another base requirement in order to expand the api by versioning.
-Number 4 is include because it is not a hard feature if you think before coding.
+* I wanted to choose the ticket numbers 1, 2, 3 because they are the base of the API.
+* Number 1 is the goal of this project.
+* Number 2 represents the authentication used to do relation between users and wishlists feature, also it is responsible for the security between api endpoits.
+* Number 3 represents another base requirement in order to expand the api by versioning.
+* Number 4 is include because it is not a hard feature if you think before coding.
 
-Second release: item 4.
+Second release: item 5.
