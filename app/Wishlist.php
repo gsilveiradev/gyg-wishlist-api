@@ -24,4 +24,12 @@ class Wishlist extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    /**
+     * Get the items for the wishlist.
+     */
+    public function items()
+    {
+        return $this->hasMany('App\Item');
+    }
 }

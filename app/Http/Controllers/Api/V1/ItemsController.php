@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Http\Requests;
 use App\Wishlist;
+use App\Item;
 use JWTAuth;
 
-class WishlistsController extends Controller
+class ItemsController extends Controller
 {
     /**
      * Set the logged User object.
@@ -22,12 +23,12 @@ class WishlistsController extends Controller
     }
 
     /**
-     * Verify if the logged user is the owner of the $object
+     * Verify if the logged user is the owner of the $wishlist_id
      */
-    private function verifyOwnership($object)
+    private function verifyOwnership($wishlist_id)
     {
         // Verify if user is owner
-        if ($object->user_id <> $this->user->id) {
+        if (Wishlist::where('user_id', '=', $this->user->id)->where('id', '=', $wishlist_id)->count() == 0) {
             return false;
         }
 
@@ -35,30 +36,19 @@ class WishlistsController extends Controller
     }
 
     /**
-     * List all resources
-     */
-    public function index()
-    {
-        $wishlists = Wishlist::where('user_id', '=', $this->user->id)->with('items')->get();
-
-        return response()->json(compact('wishlists'));
-    }
-
-    /**
      * Show the resource
      */
     public function show($id)
     {
-        $wishlist = Wishlist::findOrFail($id);
-        $wishlist->load('items');
+        $item = Item::findOrFail($id);
 
-        if (!$this->verifyOwnership($wishlist)) {
+        if (!$this->verifyOwnership($item->wishlist_id)) {
             return response()->json(array(
                 'message' => 'Unauthorized action'
             ), 401);
         }
 
-        return response()->json(compact('wishlist'));
+        return response()->json(compact('item'));
     }
 
     /**
@@ -67,7 +57,8 @@ class WishlistsController extends Controller
     public function store(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'name' => 'required'
+            'activity' => 'required',
+            'wishlist_id' => 'required|exists:wishlists,id'
         ]);
 
         if ($validation->fails()) {
@@ -77,12 +68,19 @@ class WishlistsController extends Controller
             ), 422);
         }
 
-        $wishlist = new Wishlist;
-        $wishlist->name = $request->name;
-        $wishlist->user_id = $this->user->id;
-        $wishlist->save();
+        $item = new item;
+        $item->activity = $request->activity;
+        $item->wishlist_id = $request->wishlist_id;
 
-        return response()->json(compact('wishlist'));
+        if (!$this->verifyOwnership($request->wishlist_id)) {
+            return response()->json(array(
+                'message' => 'Unauthorized action'
+            ), 401);
+        }
+
+        $item->save();
+
+        return response()->json(compact('item'));
     }
 
     /**
@@ -91,7 +89,8 @@ class WishlistsController extends Controller
     public function update(Request $request, $id)
     {
         $validation = Validator::make($request->all(), [
-            'name' => 'required'
+            'activity' => 'required',
+            'wishlist_id' => 'required|exists:wishlists,id'
         ]);
 
         if ($validation->fails()) {
@@ -101,18 +100,19 @@ class WishlistsController extends Controller
             ), 422);
         }
 
-        $wishlist = Wishlist::findOrFail($id);
+        $item = Item::findOrFail($id);
 
-        if (!$this->verifyOwnership($wishlist)) {
+        if (!$this->verifyOwnership($item->wishlist_id)) {
             return response()->json(array(
                 'message' => 'Unauthorized action'
             ), 401);
         }
 
-        $wishlist->name = $request->name;
-        $wishlist->save();
+        $item->activity = $request->activity;
+        $item->wishlist_id = $request->wishlist_id;
+        $item->save();
 
-        return response()->json(compact('wishlist'));
+        return response()->json(compact('item'));
     }
 
     /**
@@ -120,15 +120,15 @@ class WishlistsController extends Controller
      */
     public function destroy($id)
     {
-        $wishlist = Wishlist::findOrFail($id);
+        $item = Item::findOrFail($id);
 
-        if (!$this->verifyOwnership($wishlist)) {
+        if (!$this->verifyOwnership($item->wishlist_id)) {
             return response()->json(array(
                 'message' => 'Unauthorized action'
             ), 401);
         }
 
-        $wishlist->delete();
+        $item->delete();
 
         return response()->json(array('message' => 'Ok!'), 200);
     }
