@@ -59,7 +59,16 @@ Route::group(['namespace' => 'Api'], function () {
             Route::get('/wishlists/{id}', 'WishlistsController@show');
             Route::post('/wishlists', 'WishlistsController@store');
             Route::get('/wishlists', 'WishlistsController@index');
+
+            /*
+            |--------------------------------------------------------------------------
+            | Routes for wishlist items service
+            |--------------------------------------------------------------------------
+            */
+            Route::delete('/items/{id}', 'ItemsController@destroy');
+            Route::put('/items/{id}', 'ItemsController@update');
+            Route::get('/items/{id}', 'ItemsController@show');
+            Route::post('/items', 'ItemsController@store');
         });
     });
-        
 });
