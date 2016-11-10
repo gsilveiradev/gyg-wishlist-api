@@ -39,15 +39,14 @@ php artisan migrate:refresh --seed
 
 All the routes os this api are in ```routes/api.php```.
 
-Real GET examples:
+Real examples:
 
 ```
-http://localhost:8000/api/exercises/
-http://localhost:8000/api/plans/
-http://localhost:8000/api/users/
+POST http://localhost:8000/api/v1/authentication/
+POST http://localhost:8000/api/v1/authentication/forgot_password/
 ```
 
-### Test
+### Test 
 
 Run the serve command:
 
