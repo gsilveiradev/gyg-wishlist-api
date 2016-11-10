@@ -21,6 +21,8 @@ Models are in:
 ```
 app/
    > User.php
+   > Wishlist.php
+   > Item.php
 ```
 
 Migrations are in:
@@ -46,9 +48,13 @@ POST http://localhost:8000/api/v1/authentication/
 POST http://localhost:8000/api/v1/authentication/forgot_password/
 ```
 
-### Test 
+#### Postman collection:
 
-Run the serve command:
+You can import a new collection on Postman: ```https://www.getpostman.com/collections/86b09253e46beb7d4c78```
+
+### Run and enjoy
+
+Run the serve command to test the Api endpoints:
 
 ```bash
 php artisan serve
@@ -72,4 +78,10 @@ First release: items 1, 2, 3 and 4.
 * Number 3 represents another base requirement in order to expand the api by versioning.
 * Number 4 is include because it is not a hard feature if you think before coding.
 
-Second release: item 5.
+Second release: item 5 (to be developed).
+
+* Adjust Items resource to receive different types. In this case, transform the Items into a gateway resource to receive different types of items. Migrate currently items data into a new resource called Activities.
+* Create another resources like Points of Interest, Cities, etc.
+* Improve the Ownership verification by creating route middlewares or something that reuse code and automate the request process.
+
+Plus: The ideal scenario here is use the Multi-tenancy concept to separate data from different users. But I cant implement this because of the time limit.
