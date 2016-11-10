@@ -10,7 +10,7 @@ Clone repository and then do the composer install:
 composer install
 ```
 
-Configure your ```.env``` file. Do not forget to create a MySQL database and configure it in .env file.
+Configure your ```.env``` file (copy from ```.env.example```). Do not forget to create a MySQL database and configure it in .env file.
 
 ### Migrations
 
@@ -54,7 +54,7 @@ You can import a new collection on Postman: ```https://www.getpostman.com/collec
 
 ### Run and enjoy
 
-Run the serve command to test the Api endpoints:
+Run the serve command to test the Api endpoints on Postman:
 
 ```bash
 php artisan serve
